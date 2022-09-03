@@ -1,0 +1,13 @@
+[book]
+title = "Writing a Game Boy Advance Game from Scratch"
+authors = ["Julian Frimmel"]
+description = "This book is a diary (or \"blog\") documenting the authors experiments with the Game Boy Advance. It covers writing a simple game from scratch without relying on existing libraries. The Rust programming language is used."
+language = "en"
+multilingual = false
+src = "doc"
+
+[rust]
+edition = "2021"
+
+[output.html]
+git-repository-url = "https://github.com/jfrimmel/gba-experiments"
