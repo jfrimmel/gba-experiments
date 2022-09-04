@@ -26,7 +26,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: book
+          at: .
       - run:
           name: Disable jekyll builds
           command: touch book/.nojekyll
