@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: jfrimmel/mdbook:v1
+    steps:
+      - checkout
+      - run:
+          name: Run the tests
+          command: mdbook test
+  docs-build:
+    docker:
+      - image: jfrimmel/mdbook:v1
+    steps:
+      - checkout
+      - run:
+          name: Build the documentation
+          command: mdbook build
+      - persist_to_workspace:
+          root: .
+          paths: book
+  docs-deploy:
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: book
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "ci-build@github.local"
+            git config user.name "ci-build"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dist book
+
+workflows:
+  build:
+    jobs:
+      - test
+      - docs-build
+      - docs-deploy:
+          requires:
+            - test
+            - docs-build
+          filters:
+            branches:
+              only: main
